@@ -97,7 +97,7 @@ public class Gun : MonoBehaviour
 
             bulletObject.GetComponent<Rigidbody>().AddForce(bulletObject.transform.up * _muzzleVelocity, ForceMode.Acceleration);
 
-            bulletObject.Deactivate(_currentRange);
+            bulletObject.Deactivate(1+_currentRange/5);
 
             nextTimeToShoot = Time.time + .1f + 30 / (_currentRate + 30);
         }
@@ -120,7 +120,7 @@ public class Gun : MonoBehaviour
     }
     public void SetRange(int delta)
     {
-        _currentRange += delta / 4;
+        _currentRange += delta;
         _uiController.UpdateRangeValue(_currentRange);
     }
     public void SetYear(int delta)
@@ -173,7 +173,7 @@ public class Gun : MonoBehaviour
             _year += 2;
             _currentYear += 2;
             _player.UpdateMoney(-1000);
-            PlayerPrefs.SetFloat(_generationKey, _year);
+            PlayerPrefs.SetInt(_generationKey, _year);
             _uiController.UpdateYearValue(_currentYear);
         }
     }

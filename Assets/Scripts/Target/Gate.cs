@@ -57,7 +57,7 @@ public class Gate : Target
             gun.ResetPass();
             switch (_powerType)
             {
-                case PowerType.Range: gun.SetRange(_power/5); break;
+                case PowerType.Range: gun.SetRange(_power); break;
                 case PowerType.Rate: gun.SetRate(_power); break;
                 case PowerType.Year: gun.SetYear(_power); break;
 

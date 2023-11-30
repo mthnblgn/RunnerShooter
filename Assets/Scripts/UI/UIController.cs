@@ -59,7 +59,7 @@ public class UIController : MonoBehaviour
     }
     public void UpdateRangeValue (float value)
     {
-        _rangeText.text = "Range: "+Mathf.CeilToInt(value*4).ToString();
+        _rangeText.text = "Range: "+value.ToString();
     }
 
 }
