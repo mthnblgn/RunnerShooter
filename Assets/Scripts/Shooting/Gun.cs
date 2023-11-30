@@ -34,6 +34,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private int _maxSize = 100;
     [SerializeField] private GameController _gameController;
     [SerializeField] Player _player;
+    [SerializeField] UIController _uiController;
 
     public bool _isTriggered = false;
 
@@ -54,6 +55,9 @@ public class Gun : MonoBehaviour
         _currentRange += _range;
         _currentRate += _rate;
         _currentYear += _year;
+        _uiController.UpdateYearValue(_currentYear);
+        _uiController.UpdateRateValue(_currentRate);
+        _uiController.UpdateRangeValue(_currentRange);
     }
 
     private Bullet CreateProjectile()
@@ -109,9 +113,21 @@ public class Gun : MonoBehaviour
         nextTimeToShoot = Time.time;
         StartCoroutine(ResetPassCoroutine());
     }
-    public void SetRate(int delta) { _currentRate += delta; }
-    public void SetRange(int delta) { _currentRange += delta / 4; }
-    public void SetYear(int delta) { _currentYear += delta; }
+    public void SetRate(int delta)
+    {
+        _currentRate += delta;
+        _uiController.UpdateRateValue(_currentRate);
+    }
+    public void SetRange(int delta)
+    {
+        _currentRange += delta / 4;
+        _uiController.UpdateRangeValue(_currentRange);
+    }
+    public void SetYear(int delta)
+    {
+        _currentYear += delta;
+        _uiController.UpdateYearValue(_currentYear);
+    }
 
     public void GameOver()
     {
@@ -136,7 +152,7 @@ public class Gun : MonoBehaviour
             _currentRate++;
             _player.UpdateMoney(-1000);
             PlayerPrefs.SetFloat(_rateKey, _rate);
-
+            _uiController.UpdateRateValue(_currentRate);
         }
     }
     public void UpgradeRange()
@@ -147,17 +163,18 @@ public class Gun : MonoBehaviour
             _currentRange += .25f;
             _player.UpdateMoney(-1000);
             PlayerPrefs.SetFloat(_rangeKey, _range);
-
+            _uiController.UpdateRangeValue(_currentRange);
         }
     }
     public void UpgradeGeneration()
     {
         if (_player.Money >= 1000)
         {
-            _year+=2;
-            _currentYear+=2;
+            _year += 2;
+            _currentYear += 2;
             _player.UpdateMoney(-1000);
             PlayerPrefs.SetFloat(_generationKey, _year);
+            _uiController.UpdateYearValue(_currentYear);
         }
     }
 }
